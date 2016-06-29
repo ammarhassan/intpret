@@ -3,18 +3,41 @@
 {% load staticfiles %}
 
 {% block body %}
+{{group_id}}
 <div class="col-md-8 col-md-offset-2">
 	<h2>This is the interface of the Graphical interpreter shell. Type and take over the world.</h2>
 
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<form role='form'>
+			{% if queries %}
+				<h5>Previous Queristas:</h5>
+			{% endif %}
+			<ul class='list-group'>
+			{% for query in queries %}
+				<li class='list-group-item'>{{query.query}}</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<form role='form' action={% if group_id %}"{% url 'shell' group_id %}"{% else %}"{% url 'shell' %}"{% endif %} method='post'>
+				{% csrf_token %}
 				<div class='form-group'>
 					<label for='light-shell'>Command is yours milord:</label>
-					<textarea id='light-shell' class='form-control' style="rows:3"></textarea>
+					<textarea id='light-shell' class='form-control' style="rows:3" name='light-shell'></textarea>
+				</div>
+				<div>
+					<button class='btn btn-md btn-primary' type='submit'>Conquer</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$('#light-shell').
+
+
+</script>
 {% endblock %}
