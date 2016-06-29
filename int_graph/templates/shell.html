@@ -1,15 +1,20 @@
+{% extends '_layout.html' %}
 
-<head>
-<title>Graphical Interpreter Shell</title>
-</head>
+{% load staticfiles %}
 
-<body>
+{% block body %}
+<div class="col-md-8 col-md-offset-2">
+	<h2>This is the interface of the Graphical interpreter shell. Type and take over the world.</h2>
 
-<h2>This is the interface of the Graphical interpreter shell.</h2>
-
-<form>
-
-
-</form>
-
-</body>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<form role='form'>
+				<div class='form-group'>
+					<label for='light-shell'>Command is yours milord:</label>
+					<textarea id='light-shell' class='form-control' style="rows:3"></textarea>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
