@@ -7,4 +7,4 @@ def shell(request):
 
 
 
-	return render('shell.html')
+	return render(request, 'shell.html')
