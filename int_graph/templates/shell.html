@@ -19,6 +19,9 @@
 			</ul>
 		</div>
 	</div>
+
+	<div id='ChartsDiv'>
+	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<form role='form' action={% if group_id %}"{% url 'shell' group_id %}"{% else %}"{% url 'shell' %}"{% endif %} method='post'>
@@ -28,16 +31,62 @@
 					<textarea id='light-shell' class='form-control' style="rows:3" name='light-shell'></textarea>
 				</div>
 				<div>
-					<button class='btn btn-md btn-primary' type='submit'>Conquer</button>
+					<button class='btn btn-md btn-primary' type='button' onclick='interactive_shell()'>Conquer</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-	$('#light-shell').
+	google.load("visualization", "1", {packages:["corechart"]});
+</script>
+
+<script type="text/javascript">
+function pieChart(data_input, id, title) {
+    var data = google.visualization.arrayToDataTable(data_input);
+
+    var options = {
+        title: title,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById(id));
+    chart.draw(data, options);
+}
+</script>
+
+<script type="text/javascript">
+var count=1;
+
+function panel_wrapper(panel_header, panel_body){
+	var wrapped_content = "<div class='panel panel-default'> <div class='panel panel-heading'>"+panel_header+"</div><div class='panel panel-body'>"+panel_body+"</div></div>";
+	return wrapped_content
+}
+
+function interactive_shell(){
+	var query = $('#light-shell').val();
+
+	$.post( 
+		"{% url 'interactive_shell' %}",
+		{
+			query:query,
+			csrfmiddlewaretoken:'{{csrf_token}}'
+		},
+		function(response) {
+			var content = "<div><h4>Query:"+query+"</h4><div id='graph"+count+"'></div></div>";
 
 
+			$( "#ChartsDiv" ).append( panel_wrapper('Graph '+count, content) );
+			pieChart(response.data, "graph"+count, 'graph number '+count);
+			count += 1;
+			$("#light-shell").val("");
+			// alert(query);
+
+		}).fail(function() {
+	    	alert( "error" );
+	  	})
+
+}
 </script>
 {% endblock %}
