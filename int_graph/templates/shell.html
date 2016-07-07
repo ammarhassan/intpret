@@ -43,18 +43,7 @@
 	google.load("visualization", "1", {packages:["corechart"]});
 </script>
 
-<script type="text/javascript">
-function pieChart(data_input, id, title) {
-    var data = google.visualization.arrayToDataTable(data_input);
-
-    var options = {
-        title: title,
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById(id));
-    chart.draw(data, options);
-}
-</script>
+<script src="{% static "custom/piechart.js" %}"></script>
 
 <script type="text/javascript">
 var count=1;
